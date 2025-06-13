@@ -369,3 +369,4 @@ if __name__ == "__main__":
     # Pour test local
     data = pd.read_csv("data/data.csv")
     afficher_visualisation(data)
+
