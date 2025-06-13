@@ -316,54 +316,109 @@ def afficher_statistiques(data):
     
     st.plotly_chart(fig_bar, use_container_width=True)
     
-    # Distribution du churn par statut de membre actif
+    # Distribution du churn par statut de membre actif - AVEC VÉRIFICATION DE CLÉ
     st.markdown('<h3 class="section-title">Distribution du churn par statut de membre actif</h3>', unsafe_allow_html=True)
     
-    active_status = list(api_stats["churn_by_active_member"].keys())
-    active_churn_rates = [active_data["churn_rate"] for active_data in api_stats["churn_by_active_member"].values()]
-    active_client_counts = [active_data["count"] for active_data in api_stats["churn_by_active_member"].values()]
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        fig = px.bar(
-            x=active_status,
-            y=active_churn_rates,
-            text=[f"{rate:.1f}%" for rate in active_churn_rates],
-            color=active_status,
-            labels={"x": "Membre actif", "y": "Taux de churn (%)"},
-            title="Taux de churn par statut de membre actif"
-        )
+    # Vérifier si la clé existe dans la réponse de l'API
+    if "churn_by_active_member" in api_stats:
+        active_status = list(api_stats["churn_by_active_member"].keys())
+        active_churn_rates = [active_data["churn_rate"] for active_data in api_stats["churn_by_active_member"].values()]
+        active_client_counts = [active_data["count"] for active_data in api_stats["churn_by_active_member"].values()]
         
-        fig.update_layout(
-            xaxis_title="Membre actif",
-            yaxis_title="Taux de churn (%)",
-            showlegend=False,
-            template="plotly_white"
-        )
+        col1, col2 = st.columns(2)
         
-        st.plotly_chart(fig, use_container_width=True)
-    
-    with col2:
-        fig_pie = px.pie(
-            names=active_status,
-            values=active_client_counts,
-            title="Répartition des clients par statut de membre actif",
-            hole=0.4
-        )
+        with col1:
+            fig = px.bar(
+                x=active_status,
+                y=active_churn_rates,
+                text=[f"{rate:.1f}%" for rate in active_churn_rates],
+                color=active_status,
+                labels={"x": "Membre actif", "y": "Taux de churn (%)"},
+                title="Taux de churn par statut de membre actif"
+            )
+            
+            fig.update_layout(
+                xaxis_title="Membre actif",
+                yaxis_title="Taux de churn (%)",
+                showlegend=False,
+                template="plotly_white"
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
         
-        fig_pie.update_layout(
-            legend_title="Membre actif",
-            template="plotly_white"
-        )
+        with col2:
+            fig_pie = px.pie(
+                names=active_status,
+                values=active_client_counts,
+                title="Répartition des clients par statut de membre actif",
+                hole=0.4
+            )
+            
+            fig_pie.update_layout(
+                legend_title="Membre actif",
+                template="plotly_white"
+            )
+            
+            fig_pie.update_traces(
+                textposition='inside', 
+                textinfo='percent+label',
+                hovertemplate='%{label}<br>Nombre: %{value}<br>Pourcentage: %{percent}'
+            )
+            
+            st.plotly_chart(fig_pie, use_container_width=True)
+    else:
+        # Afficher un message si la clé n'est pas disponible dans l'API
+        st.info("Les statistiques par statut de membre actif ne sont pas disponibles dans cette version de l'API.")
         
-        fig_pie.update_traces(
-            textposition='inside', 
-            textinfo='percent+label',
-            hovertemplate='%{label}<br>Nombre: %{value}<br>Pourcentage: %{percent}'
-        )
+        # Utiliser les données locales pour afficher une visualisation alternative
+        active_member_data = data.groupby('IsActiveMember')['Exited'].agg(['count', 'mean']).reset_index()
+        active_member_data['IsActiveMember'] = active_member_data['IsActiveMember'].map({0: 'Non actif', 1: 'Actif'})
+        active_member_data.columns = ['Statut', 'Nombre de clients', 'Taux de churn']
+        active_member_data['Taux de churn'] = active_member_data['Taux de churn'] * 100
         
-        st.plotly_chart(fig_pie, use_container_width=True)
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            fig = px.bar(
+                active_member_data,
+                x='Statut',
+                y='Taux de churn',
+                text=[f"{rate:.1f}%" for rate in active_member_data['Taux de churn']],
+                color='Statut',
+                labels={'Taux de churn': 'Taux de churn (%)'}
+            )
+            
+            fig.update_layout(
+                title="Taux de churn par statut de membre actif (données locales)",
+                xaxis_title="Statut de membre actif",
+                yaxis_title="Taux de churn (%)",
+                showlegend=False,
+                template="plotly_white"
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            fig_pie = px.pie(
+                active_member_data,
+                names='Statut',
+                values='Nombre de clients',
+                title="Répartition des clients par statut de membre actif (données locales)",
+                hole=0.4
+            )
+            
+            fig_pie.update_layout(
+                legend_title="Statut de membre actif",
+                template="plotly_white"
+            )
+            
+            fig_pie.update_traces(
+                textposition='inside', 
+                textinfo='percent+label',
+                hovertemplate='%{label}<br>Nombre: %{value}<br>Pourcentage: %{percent}'
+            )
+            
+            st.plotly_chart(fig_pie, use_container_width=True)
     
     # Recherche de client spécifique
     st.markdown('<h3 class="section-title">Recherche de client</h3>', unsafe_allow_html=True)
@@ -420,3 +475,6 @@ if __name__ == "__main__":
     # Pour test local
     data = pd.read_csv("data/data.csv")
     afficher_statistiques(data)
+
+    
+   
