@@ -43,7 +43,6 @@ et il faut le souligner que pour notre cas l'application fut conçu avec l'API :
 - Base de données : [GitHub](https://github.com/Awoutokoffisamson/machine_learning2_Documents/blob/main/Churn_Modelling.csv)
 - Modèle : [Google Drive](https://drive.google.com/file/d/1JZji6K_r-Msko1xuk3R9ONycgPtliSK2/view)
 
-Si les ressources en ligne ne sont pas accessibles, l'application entraînera automatiquement un nouveau modèle à partir des données disponibles.
 
 ## Personnalisation
 
