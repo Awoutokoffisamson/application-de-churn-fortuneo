@@ -44,9 +44,13 @@ AUTHORIZED_USERS = {
         "name": "BAMOGO Rasmané",
         "role": "Data scientist in Fortuneo Bank"
     },
-    "Adoumbayemdjim@gmail.com": {
+    "Madjyamadoumbaye23@gmail.com": {
         "name": "Adoumbaye MDJIM",
         "role": "Data scientist in Fortuneo Bank"
+    },
+    "mouslydiaw@gmail.com": {
+        "name": "Mme Mously DIAW",
+        "role": "Professeur chargé du cours de Machine learning"
     }
 
 
@@ -335,4 +339,5 @@ if authenticate():
         </div>
         """,
         unsafe_allow_html=True
-    )
+    )      
+        
