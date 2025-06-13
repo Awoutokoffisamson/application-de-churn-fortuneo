@@ -25,7 +25,8 @@ pip install -r requirements.txt
 streamlit run main.py
 ```
 
-L'application sera accessible dans votre navigateur à l'adresse : http://localhost:8501
+L'application sera accessible dans votre navigateur à l'adresse : https://application-de-churn-fortuneo.streamlit.app 
+et il faut le souligner que pour notre cas l'application fut conçu avec l'API : https://machinelearning2api.onrender.com/docs#/
 
 ## Structure du projet
 
