@@ -1,10 +1,11 @@
+# requirements.txt optimisé
 streamlit==1.45.1
 streamlit-option-menu==0.4.0
 pandas==2.2.3
-numpy==2.2.6
+numpy==1.26.4  # Version plus stable (2.2.6 peut être expérimental)
 scikit-learn==1.6.1
 plotly==5.22.0
 requests==2.32.3
 matplotlib==3.8.4
 seaborn==0.13.2
-pillow==10.3.0
+pillow==10.4.0
