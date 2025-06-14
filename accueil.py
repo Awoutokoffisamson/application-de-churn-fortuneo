@@ -160,7 +160,7 @@ def afficher_accueil():
             Dans le secteur bancaire en ligne, où la concurrence est intense et les coûts d'acquisition de nouveaux clients sont élevés, 
             la rétention des clients est essentielle à la rentabilité.</p>
             
-            <p>Notre outil de prédiction utilise un modèle de <b>Random Forest</b> entraîné sur des données historiques pour identifier 
+            <p>Notre outil de prédiction utilise un modèle de <b>LIGTH GBM</b> entraîné sur des données historiques pour identifier 
             les clients à risque de désabonnement, permettant ainsi à Fortuneo Banque de mettre en place des actions préventives ciblées.</p>
         </div>
         """,
@@ -190,7 +190,7 @@ def afficher_accueil():
             <p>Cette application utilise une API dédiée pour les prédictions et l'analyse des données :</p>
             <ul>
                 <li>La base de données est chargée depuis <a href="https://github.com/Awoutokoffisamson/machine_learning2_Documents/blob/main/Churn_Modelling.csv" target="_blank">GitHub</a></li>
-                <li>Le modèle Random Forest est géré par l'API</li>
+                <li>Notre modèle est géré par l'API</li>
                 <li>L'API fournit des endpoints pour les prédictions individuelles, par lot et les statistiques</li>
             </ul>
         </div>
